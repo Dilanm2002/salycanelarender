@@ -9,7 +9,10 @@ const pedidoRoutes = require('./routes/pedidoRoutes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'https://salycanelarender.vercel.app',
+  credentials: true
+}));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
