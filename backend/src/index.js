@@ -9,10 +9,7 @@ const pedidoRoutes = require('./routes/pedidoRoutes');
 
 const app = express();
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : '*',
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
