@@ -4,6 +4,25 @@ import { carritoController } from '../../controllers/carritoController.js';
 
 const CATEGORIAS = ['Todos', 'Desayunos', 'Entradas', 'Almuerzos', 'Postres', 'Bocaditos', 'Bebidas Calientes', 'Bebidas Frías'];
 
+const PLACEHOLDER = (
+  <div className="producto-card__img"
+    style={{ background: 'var(--cream-dk)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
+    🍽️
+  </div>
+);
+
+function ProductImg({ imagen, nombre }) {
+  const [err, setErr] = useState(false);
+  if (!imagen || err) return PLACEHOLDER;
+  return (
+    <picture>
+      <img className="producto-card__img" src={imagen} alt={`Foto de ${nombre}`}
+        width="300" height="170" loading="lazy" decoding="async"
+        onError={() => setErr(true)} />
+    </picture>
+  );
+}
+
 export default function Catalogo({ setCarrito }) {
   const [productos, setProductos] = useState([]);
   const [categoria, setCategoria] = useState('Todos');
@@ -52,17 +71,7 @@ export default function Catalogo({ setCarrito }) {
           )}
           {filtrados.map(p => (
             <article key={p.id} className="card producto-card" role="listitem" aria-label={p.nombre}>
-              {p.imagen ? (
-                <picture>
-                  <img className="producto-card__img" src={p.imagen} alt={`Foto de ${p.nombre}`}
-                    width="300" height="170" loading="lazy" decoding="async" />
-                </picture>
-              ) : (
-                <div className="producto-card__img"
-                  style={{ background: 'var(--cream-dk)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
-                  🍽️
-                </div>
-              )}
+              <ProductImg imagen={p.imagen} nombre={p.nombre} />
               <div className="producto-card__body">
                 <h3 className="producto-card__nombre">{p.nombre}</h3>
                 {p.descripcion && <p className="producto-card__desc">{p.descripcion}</p>}
